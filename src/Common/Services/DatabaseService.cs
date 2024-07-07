@@ -22,15 +22,15 @@ namespace ThreadApi.Common.Services
             using var conn = new NpgsqlConnection(_connectionString);
             await conn.OpenAsync();
 
-            using var cmd = new NpgsqlCommand("SELECT id, diameter FROM metric.diameters ORDER BY id ASC", conn);
+            using var cmd = new NpgsqlCommand("SELECT * FROM metric.get_diam('ASC')", conn);
             using var reader = await cmd.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
                diameters.Add(new DiameterModel
                 {
-                    Id = reader.GetInt32(0),
-                    Diameter = reader.GetDouble(1) 
+                    Id = 0,
+                    Diameter = reader.GetDouble(0) 
                 });
             }
 

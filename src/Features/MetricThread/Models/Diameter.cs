@@ -20,6 +20,6 @@ namespace ThreadApi.Features.MetricThread.Models
         public required double Diameter { get; set; } = 0.0;
 
 
-        public string? Test { get; set; }="test";
+        public string? Test { get; set; }=null;
     }
 }

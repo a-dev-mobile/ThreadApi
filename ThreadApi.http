@@ -1,6 +1,6 @@
 @ThreadApi_HostAddress = http://localhost:5068
 
-GET {{ThreadApi_HostAddress}}/api/metric/diameters/
+GET {{BASE_URL}}/api/metric/diameters/
 Accept: application/json
 
 ###
