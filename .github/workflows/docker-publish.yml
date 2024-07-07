@@ -3,7 +3,7 @@ name: Execute SSH Script
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   execute-ssh:
