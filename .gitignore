@@ -1,0 +1,51 @@
+# Ignore build results
+bin/
+obj/
+out/
+
+# Ignore user-specific files
+.vscode/
+*.swp
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore logs
+*.log
+logs/
+directory_structure.log
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.DS_Store
+*.class
+
+# Ignore OS generated files
+Thumbs.db
+Desktop.ini
+
+# Ignore Rider project files
+.idea/
+.idea_modules/
+
+# Ignore Visual Studio Code workspace settings
+.vscode/
+
+# Ignore .NET directories
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Ignore NuGet packages
+*.nupkg
+*.nuspec
+*.snupkg
+
+# Ignore packages directory
+packages/
+.nuget/
+
+
+appsettings*json

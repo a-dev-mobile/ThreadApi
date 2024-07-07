@@ -1,0 +1,6 @@
+@ThreadApi_HostAddress = http://localhost:3003
+
+GET {{ThreadApi_HostAddress}}/api/metric/diams/
+Accept: application/json
+
+###
