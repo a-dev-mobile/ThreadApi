@@ -6,7 +6,7 @@ using ThreadApi.Features.MetricThread.Models;
 namespace ThreadApi.Features.MetricThread.Controllers
 {
     [ApiController]
-    [Route("api/metric/diams")]
+    [Route("api/metric/diameters")]
     [ApiVersion("1.0")]
     public class MetricThreadController : ControllerBase
     {
