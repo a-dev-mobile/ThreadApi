@@ -29,7 +29,7 @@ namespace ThreadApi.Common.Services
             {
                diameters.Add(new DiameterModel
                 {
-                    Id = 50,
+                    Id = 1110,
                     Diameter = reader.GetDouble(0) 
                 });
             }
