@@ -1,62 +1,45 @@
 using Serilog.Events;
 using Serilog.Formatting;
 using System.IO;
-using System.Text;
 using Newtonsoft.Json; // Ensure Newtonsoft.Json is included in your project dependencies
 
 public class SerilogJsonFormatter : ITextFormatter
 {
     public void Format(LogEvent logEvent, TextWriter output)
     {
-        var sb = new StringBuilder();
-        sb.Append("{");
+        var jsonWriter = new JsonTextWriter(output) { Formatting = Formatting.None };
+        
+            jsonWriter.WriteStartObject();
 
         // Write the timestamp in the desired format
-        sb.Append("\"time\":\"");
-        sb.Append(logEvent.Timestamp.ToString("yyyy-MM-ddTHH:mm:sszzz"));
-        sb.Append("\",");
+            jsonWriter.WritePropertyName("time");
+            jsonWriter.WriteValue(logEvent.Timestamp.ToString("yyyy-MM-ddTHH:mm:sszzz"));
 
         // Write the level
-        sb.Append("\"level\":\"");
-        sb.Append(logEvent.Level.ToString());
-        sb.Append("\",");
+            jsonWriter.WritePropertyName("level");
+            jsonWriter.WriteValue(logEvent.Level.ToString());
 
-        // Write the message, ensuring proper escaping of characters
-        sb.Append("\"message\":\"");
-        sb.Append(EscapeJsonString(logEvent.RenderMessage()));
-        sb.Append("\",");
+            // Write the message
+            jsonWriter.WritePropertyName("message");
+        jsonWriter.WriteValue(logEvent.RenderMessage());
 
-        // Write exception if exists, ensuring proper escaping
+            // Write exception if exists
         if (logEvent.Exception != null)
         {
-            sb.Append("\"exception\":\"");
-            sb.Append(EscapeJsonString(logEvent.Exception.ToString()));
-            sb.Append("\",");
+                jsonWriter.WritePropertyName("exception");
+            jsonWriter.WriteValue(logEvent.Exception.ToString());
         }
 
-        // Serialize and write additional properties, ensuring complex objects are handled properly
+        // Serialize and write additional properties
         foreach (var property in logEvent.Properties)
             {
-            sb.Append("\"");
-            sb.Append(EscapeJsonString(property.Key));
-            sb.Append("\":");
-            sb.Append(JsonConvert.SerializeObject(property.Value.ToString(), Formatting.None));
-            sb.Append(",");
+                jsonWriter.WritePropertyName(property.Key);
+            jsonWriter.WriteRawValue(JsonConvert.SerializeObject(property.Value)); // Serialize each value directly to JSON
         }
 
-        // Remove the last comma if present
-        if (sb[sb.Length - 1] == ',')
-        {
-            sb.Length--;
-        }
+            jsonWriter.WriteEndObject();
+        jsonWriter.Flush(); // Manually flush data to output, do not dispose JsonTextWriter
 
-        sb.Append("}");
-        output.WriteLine(sb.ToString());
-    }
-
-    // Method to escape JSON strings correctly
-    private string EscapeJsonString(string value)
-    {
-        return value.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r");
+        output.WriteLine(); // Ensure there is a newline after each log entry
     }
 }
