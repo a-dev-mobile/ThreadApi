@@ -7,11 +7,14 @@ using ThreadApi.Common.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Serilog
+// Configure Serilog
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
-    .WriteTo.File(new CompactJsonFormatter(), "logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.File(new CompactJsonFormatter(), "logs/log-.log", rollingInterval: RollingInterval.Month) 
     .CreateLogger();
+
+
 
 builder.Host.UseSerilog();
 
