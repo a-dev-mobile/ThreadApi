@@ -15,22 +15,24 @@ namespace ThreadApi.Common.Services
             CheckDatabaseConnection().Wait(); 
         }
 
-        public async Task<List<DiameterModel>> GetDiametersAsync()
+        public async Task<List<DiameterModel>> GetDiametersAsync(string orderDirection)
         {
             var diameters = new List<DiameterModel>();
 
             using var conn = new NpgsqlConnection(_connectionString);
             await conn.OpenAsync();
 
-            using var cmd = new NpgsqlCommand("SELECT * FROM metric.get_diam('ASC')", conn);
+            using var cmd = new NpgsqlCommand("SELECT * FROM metric.get_diameters(@orderDirection)", conn);
+            cmd.Parameters.AddWithValue("@orderDirection", orderDirection);
+
             using var reader = await cmd.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
-               diameters.Add(new DiameterModel
+                diameters.Add(new DiameterModel
                 {
-                    Id = 222,
-                    Diameter = reader.GetDouble(0) 
+                    Id = 0, 
+                    Diameter = reader.GetDouble(reader.GetOrdinal("diam")) 
                 });
             }
 

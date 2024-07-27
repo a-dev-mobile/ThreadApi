@@ -29,7 +29,7 @@ namespace ThreadApi.Features.MetricThread.Controllers
         {
             try
             {
-                List<DiameterModel> data = await _databaseService.GetDiametersAsync();
+                List<DiameterModel> data = await _databaseService.GetDiametersAsync("DESC");
                 return Ok(data);
             }
             catch (Exception ex)
