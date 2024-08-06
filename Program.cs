@@ -25,6 +25,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<DatabaseService>(); // Add DatabaseService
 builder.Services.AddApiVersioningConfiguration(); // Add API versioning
 
+// Configure CORS to allow all origins
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,6 +49,9 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
+
+// Use the CORS policy
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthorization();
 
