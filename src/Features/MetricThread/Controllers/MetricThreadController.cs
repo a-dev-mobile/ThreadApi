@@ -16,20 +16,14 @@ namespace ThreadApi.Features.MetricThread.Controllers
         {
             _databaseService = databaseService;
         }
-        /// <summary>
-        /// Gets the list of diameters.
-        /// </summary>
-        /// <returns>A list of <see cref="DiameterModel"/>.</returns>
-        /// <response code="200">Returns the list of diameters.</response>
-        /// <response code="500">If there is an internal server error.</response>
         [HttpGet]
         [ProducesResponseType(typeof(List<DiameterModel>), 200)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetDiameters()
+        public async Task<IActionResult> GetDiameters([FromQuery] string order = "asc")
         {
             try
             {
-                List<DiameterModel> data = await _databaseService.GetDiametersAsync("DESC");
+                List<DiameterModel> data = await _databaseService.GetMetricDiameters(order);
                 return Ok(data);
             }
             catch (Exception ex)

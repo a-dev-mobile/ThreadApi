@@ -5,21 +5,13 @@ namespace ThreadApi.Features.MetricThread.Models
 {
     public class DiameterModel
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
+
         [Required]
-        [DefaultValue(0)]
-        public required int Id { get; set; } = 0;
+        public required int id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the diameter.
-        /// </summary>
         [Required]
-        [DefaultValue(0.0)]
-        public required double Diameter { get; set; } = 0.0;
+        public required string diam { get; set; }
 
 
-        public string? Test { get; set; }="20";
     }
 }
