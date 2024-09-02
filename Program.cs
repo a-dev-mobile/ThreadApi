@@ -3,6 +3,7 @@ using Serilog.Events;
 using Serilog.Formatting.Compact;
 using ThreadApi.Common.Config;
 using ThreadApi.Common.Services;
+using ThreadApi.Features.MetricThread.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +23,8 @@ builder.Host.UseSerilog();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<DatabaseService>(); // Add DatabaseService
-builder.Services.AddApiVersioningConfiguration(); // Add API versioning
+builder.Services.AddSingleton<MetricThreadService>(); 
+builder.Services.AddApiVersioningConfiguration(); 
 
 // Configure CORS to allow all origins
 builder.Services.AddCors(options =>

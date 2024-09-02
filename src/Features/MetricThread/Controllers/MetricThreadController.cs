@@ -2,20 +2,21 @@ using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using ThreadApi.Common.Services;
 using ThreadApi.Features.MetricThread.Models;
+using ThreadApi.Features.MetricThread.Services;
 
 namespace ThreadApi.Features.MetricThread.Controllers
 {
     [ApiController]
-    [Route("api/metric/diameters")]
-    [ApiVersion("1.0")]
+    [Route("api/v1/metric/diameters")]
     public class MetricThreadController : ControllerBase
     {
-        private readonly DatabaseService _databaseService;
+        private readonly MetricThreadService _metricThreadService;
 
-        public MetricThreadController(DatabaseService databaseService)
+        public MetricThreadController(MetricThreadService metricThreadService)
         {
-            _databaseService = databaseService;
+            _metricThreadService = metricThreadService;
         }
+
         [HttpGet]
         [ProducesResponseType(typeof(List<DiameterModel>), 200)]
         [ProducesResponseType(500)]
@@ -23,7 +24,7 @@ namespace ThreadApi.Features.MetricThread.Controllers
         {
             try
             {
-                List<DiameterModel> data = await _databaseService.GetMetricDiameters(order);
+                List<DiameterModel> data = await _metricThreadService.GetMetricDiameters(order);
                 return Ok(data);
             }
             catch (Exception ex)
